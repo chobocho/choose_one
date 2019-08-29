@@ -16,10 +16,6 @@ public class IdleState extends IState {
         super.Init();
     }
 
-    @Override
-    public boolean isIdleState() {
-        return true;
-    }
 
     @Override
     public void updatePointList(int point) {

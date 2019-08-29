@@ -15,9 +15,6 @@ public abstract class IState {
     int mTick;
     int mPointNum;
 
-    /**
-     * Default constructor
-     */
     public IState() {
 
     }
@@ -27,46 +24,12 @@ public abstract class IState {
         mPointNum = 0;
     }
 
-    /**
-     * 
-     */
     public void tick() {
         // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    public void updatePointList() {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    public boolean isIdleState() {
-        // TODO implement here
-        return false;
-    }
-
-    /**
-     * 
-     */
-    public boolean IsSelectingState() {
-        // TODO implement here
-        return false;
-    }
-
-    public boolean IsSelectedState() {
-        // TODO implement here
-        return false;
     }
 
     public void updatePointList(int point) {
         // TODO implement here
     }
 
-    public boolean hasChoosen() {
-        return false;
-    }
 }

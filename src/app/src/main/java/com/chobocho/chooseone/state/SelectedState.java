@@ -7,7 +7,7 @@ import com.chobocho.chooseone.manager.ChooseManager;
  * 
  */
 public class SelectedState extends IState {
-    final int NEXT_TICK = 5;
+    final int NEXT_TICK = 4;
 
     /**
      * Default constructor
@@ -32,11 +32,6 @@ public class SelectedState extends IState {
     @Override
     public void updatePointList(int point) {
         mPointNum = point;
-    }
-
-    @Override
-    public boolean hasChoosen() {
-        return true;
     }
 
     @Override

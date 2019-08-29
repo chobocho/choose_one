@@ -7,7 +7,6 @@ import com.chobocho.chooseone.state.IdleState;
 import com.chobocho.chooseone.state.SelectedState;
 import com.chobocho.chooseone.state.SelectingState;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -17,6 +16,7 @@ public class ChooseManagerImpl implements ChooseManager {
     private IState idleState;
     private IState SelectingState;
     private IState SelectedState;
+    private ViewObsevrer observer;
     List<CPoint> pointList;
     CPoint chosenePoint;
 
@@ -38,18 +38,24 @@ public class ChooseManagerImpl implements ChooseManager {
         switch (state) {
             case IState.IDLE:
                 setState(idleState);
+                observer.OnSetIdleMode();
                 break;
             case IState.SELECTING:
                 setState(SelectingState);
+                observer.OnSetSelectingMode();
                 break;
             case IState.SELECTED:
                 setState(SelectedState);
+                observer.OnSetSelectedMode();
                 break;
         }
     }
 
     public void updatePoint(int pointCount, List<CPoint> list) {
         Log.d("ChooseManager", "updatePoint " + pointCount);
+        if (state == SelectedState) {
+            return;
+        }
         state.updatePointList(pointCount);
         pointList = list;
     }
@@ -64,19 +70,19 @@ public class ChooseManagerImpl implements ChooseManager {
         return pointList;
     }
 
-    public boolean hasChoosen() {
-        return state.hasChoosen();
-    }
-
     public void choosePoint() {
         Random rnd = new Random();
-        int selectNum = pointList.size();
-        chosenePoint = new CPoint(pointList.get(rnd.nextInt(selectNum)));
+        int selectNum = rnd.nextInt(pointList.size());
+        chosenePoint = new CPoint(pointList.get(selectNum));
         chosenePoint.color = selectNum;
+
+        pointList.clear();
+        pointList.add(chosenePoint);
+
         Log.d("ChooseManager", "ChoosePoint : " + chosenePoint.toString());
     }
 
-    public CPoint getChosenPoint() {
-        return chosenePoint;
+    public void registerObserver(ViewObsevrer obsevrer) {
+        this.observer = obsevrer;
     }
 }

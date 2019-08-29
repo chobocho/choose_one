@@ -4,18 +4,18 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.nfc.tech.NfcB;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.chobocho.chooseone.manager.CPoint;
 import com.chobocho.chooseone.manager.ChooseManager;
+import com.chobocho.chooseone.viewmodel.ViewManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,20 +26,27 @@ public class ChooseView extends View  {
 	final  String LOG_TAG = this.getClass().getSimpleName();
 	Context mContext;
 	ChooseManager manager;
+	ViewManager viewManager;
+	AppCompatActivity activity;
+
+
 	int colorTable[] = new int[20];
+
+	final int REFRESH_TIMER = 20;
+	final int TICK_TIMER = 800;
+	final int NO_TOUCH_TIMER = 60000;
 
 	final int UPDATE_SCREEN = 1001;
 	final int PRESS_KEY = 1002;
+	final int UPDATE_TICK = 1003;
+    final int NO_TOUCH_TIMER_EXPIRED = 1004;
 
 	private int screenWidth;
 	private int screenHeigth;
-	int gameSpeed;
 
 	public ChooseView(Context context) {
 		super(context);
 		this.mContext = context;
-
-		gameSpeed = 800;
 
 		for (int i = 0; i < 20; i++) {
 			colorTable[i] = getRandomColor();
@@ -55,26 +62,8 @@ public class ChooseView extends View  {
 			return;
 		}
 
-		if (manager.hasChoosen()) {
-			CPoint point = manager.getChosenPoint();
-			Log.d(LOG_TAG,"Has chosen!" + point.toString());
-			paint.setColor(colorTable[point.color]);
-			canvas.drawCircle(point.x, point.y, 250, paint);
-			return;
-		}
-
 		List<CPoint> list = manager.getPointList();
-
-		if (list == null) {
-			return;
-		}
-
-		for (CPoint point : list) {
-			Log.d(LOG_TAG, point.toString());
-			paint.setColor(colorTable[point.id]);
-		    canvas.drawCircle(point.x, point.y, 150, paint);
-	    }
-
+		viewManager.OnDraw(canvas, list, colorTable);
 	}
 
 	public void setScreenSize(int w, int h) {
@@ -82,41 +71,83 @@ public class ChooseView extends View  {
 		this.screenHeigth = h;
 	}
 
+	public void setActivity(AppCompatActivity ac) {
+	    this.activity = ac;
+	}
+
 	public void setManager(ChooseManager manager) {
 		this.manager = manager;
+	}
+
+	public void setViewManager(ViewManager viewManager) {
+        this.viewManager = viewManager;
+	}
+
+	public void increaseTick() {
+		Log.d(LOG_TAG, "increaseTick()");
+		Message message= new Message();
+		message.what = UPDATE_TICK;
+		mHandler.sendMessageDelayed(message, TICK_TIMER);
 	}
 
 	public void update() {
 		Log.d(LOG_TAG, "View.update()");
 		Message message= new Message();
 		message.what = UPDATE_SCREEN;
-        mHandler.sendMessageDelayed(message, gameSpeed);
+        mHandler.sendMessageDelayed(message, REFRESH_TIMER);
 	}
 
 	Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			Log.d(LOG_TAG, "There is event : " + msg.what);
-			if (msg.what == PRESS_KEY) {
-				int pointCount = msg.arg1;
-				List<CPoint> list = (ArrayList<CPoint>) msg.obj;
-				//for (CPoint point : list) {
-				//	Log.d(LOG_TAG, point.toString());
-				//}
-                manager.updatePoint(pointCount, list);
-                if (mHandler.hasMessages(UPDATE_SCREEN) == false) {
+			switch(msg.what) {
+				case PRESS_KEY:
+					int pointCount = msg.arg1;
+					List<CPoint> list = (ArrayList<CPoint>) msg.obj;
+					manager.updatePoint(pointCount, list);
+					if (mHandler.hasMessages(UPDATE_SCREEN) == false) {
+						update();
+					}
+					if (mHandler.hasMessages(UPDATE_TICK) == false) {
+						increaseTick();
+					}
+					if (pointCount <= 1) {
+						if (mHandler.hasMessages(NO_TOUCH_TIMER_EXPIRED) == false) {
+							Log.d(LOG_TAG, "Start timer: NO_TOUCH_TIMER_EXPIRED");
+							Message message= new Message();
+							message.what = NO_TOUCH_TIMER_EXPIRED;
+							mHandler.sendMessageDelayed(message, NO_TOUCH_TIMER);
+						}
+					} else {
+						if (mHandler.hasMessages(NO_TOUCH_TIMER_EXPIRED)) {
+							mHandler.removeMessages(NO_TOUCH_TIMER_EXPIRED);
+							Log.d(LOG_TAG, "Remove timer: NO_TOUCH_TIMER_EXPIRED");
+						}
+					}
+					break;
+				case UPDATE_SCREEN:
+					if (manager == null) {
+						return;
+					}
+					invalidate();
 					update();
-				}
-				invalidate();
-			} else if (msg.what == UPDATE_SCREEN) {
-				if (manager == null) {
-					return;
-				}
-				manager.tick();
-				invalidate();
-				update();
+					break;
+				case UPDATE_TICK:
+					manager.tick();
+					increaseTick();
+					break;
+				case NO_TOUCH_TIMER_EXPIRED:
+					Log.d(LOG_TAG, "Timer expired: NO_TOUCH_TIMER_EXPIRED");
+					finishApp();
+					break;
 			}
 		}
 	};
+
+	public void finishApp() {
+		Toast.makeText(mContext, "There is no touch for 60 seconds. Finish this app!", Toast.LENGTH_LONG);
+		activity.finish();
+	}
 
 	public boolean onTouchEvent(MotionEvent event) {
 		    //Log.d(LOG_TAG, ">> X: " + event.getX() + " Y: " + event.getY());
@@ -154,7 +185,7 @@ public class ChooseView extends View  {
 
 	public int getRandomColor(){
 		Random rnd = new Random();
-		return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+		return Color.argb(255, 56 + rnd.nextInt(200), 56 + rnd.nextInt(200), 56 + rnd.nextInt(200));
 	}
 
 }
