@@ -7449,7 +7449,7 @@
 										"$ref": "AAAAAAFs0uaQS7xZ8Yc="
 									},
 									"edgePosition": 1,
-									"text": "tick > 5"
+									"text": "tick > 4"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -7716,7 +7716,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFs0uVbtbuAqsg="
 							},
-							"name": "tick > 5",
+							"name": "tick > 4",
 							"source": {
 								"$ref": "AAAAAAFs0uX2zbvpz08="
 							},
