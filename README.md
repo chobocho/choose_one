@@ -1,7 +1,7 @@
 # choose_one
 
 ## Choose one
-![screen shot](https://github.com/chobocho/choose_one/blob/master/ux/screenshot.png)
+![screen shot](https://github.com/chobocho/choose_one/blob/master/doc/screenshot.png)
 
 ## UML
-![screen shot](https://github.com/chobocho/choose_one/blob/master/ux/main.png)
+![screen shot](https://github.com/chobocho/choose_one/blob/master/doc/main.png)
