@@ -4,13 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.chobocho.chooseone.manager.ChooseManager;
 import com.chobocho.chooseone.manager.ChooseManagerImpl;
-import com.chobocho.chooseone.viewmodel.ViewManager;
+import com.chobocho.chooseone.manager.ChooseManagerObserver;
 import com.chobocho.chooseone.viewmodel.ViewManagerImpl;
 
 public class MainActivity extends AppCompatActivity {
-    ChooseManager chooseManager;
+    ChooseManagerObserver chooseManager;
     ChooseView chooseView;
     ViewManagerImpl viewManager;
 

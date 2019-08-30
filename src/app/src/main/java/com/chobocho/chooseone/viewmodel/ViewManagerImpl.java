@@ -21,11 +21,11 @@ public class ViewManagerImpl implements ViewManager, ViewObsevrer {
     }
 
     @Override
-    public void OnDraw(Canvas canvas, List<CPoint> list, int colorTable[]) {
+    public void OnDraw(Canvas canvas, int[] colorTable) {
         if (view == null) {
             return;
         }
-        view.OnDraw(canvas, list, colorTable);
+        view.OnDraw(canvas, colorTable);
     }
 
     @Override
@@ -44,5 +44,10 @@ public class ViewManagerImpl implements ViewManager, ViewObsevrer {
     public void OnSetSelectedMode() {
         view = selectedView;
         view.init();
+    }
+
+    @Override
+    public void updatePointList(List<CPoint> list) {
+        view.updatePointList(list);
     }
 }

@@ -6,12 +6,15 @@ import android.graphics.Paint;
 import android.util.Log;
 
 import com.chobocho.chooseone.manager.CPoint;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class SelectingView implements ChooseView{
     final  String LOG_TAG = this.getClass().getSimpleName();
     int tick;
     int direction = 1;
+    List<CPoint> list;
 
     @Override
     public void init(){
@@ -20,7 +23,12 @@ public class SelectingView implements ChooseView{
     }
 
     @Override
-    public void OnDraw(Canvas canvas, List<CPoint> list, int colorTable[]) {
+    public void updatePointList(List<CPoint> list) {
+        this.list = new ArrayList<CPoint>(list);
+    }
+
+    @Override
+    public void OnDraw(Canvas canvas, int[] colorTable) {
         if ((list == null) || (list.size() == 0)) {
             return;
         }

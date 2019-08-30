@@ -10,15 +10,13 @@ import com.chobocho.chooseone.state.SelectingState;
 import java.util.List;
 import java.util.Random;
 
-
-public class ChooseManagerImpl implements ChooseManager {
+public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
     private IState state;
     private IState idleState;
     private IState SelectingState;
     private IState SelectedState;
     private ViewObsevrer observer;
     List<CPoint> pointList;
-    CPoint chosenePoint;
 
     public ChooseManagerImpl() {
         idleState = new IdleState(this);
@@ -43,10 +41,12 @@ public class ChooseManagerImpl implements ChooseManager {
             case IState.SELECTING:
                 setState(SelectingState);
                 observer.OnSetSelectingMode();
+                observer.updatePointList(pointList);
                 break;
             case IState.SELECTED:
                 setState(SelectedState);
                 observer.OnSetSelectedMode();
+                observer.updatePointList(pointList);
                 break;
         }
     }
@@ -54,10 +54,12 @@ public class ChooseManagerImpl implements ChooseManager {
     public void updatePoint(int pointCount, List<CPoint> list) {
         Log.d("ChooseManager", "updatePoint " + pointCount);
         if (state == SelectedState) {
+            state.updatePointList(pointCount);
             return;
         }
         state.updatePointList(pointCount);
         pointList = list;
+        observer.updatePointList(list);
     }
 
     private void setState(IState nextState) {
@@ -73,13 +75,13 @@ public class ChooseManagerImpl implements ChooseManager {
     public void choosePoint() {
         Random rnd = new Random();
         int selectNum = rnd.nextInt(pointList.size());
-        chosenePoint = new CPoint(pointList.get(selectNum));
-        chosenePoint.color = selectNum;
+        CPoint chosenPoint = new CPoint(pointList.get(selectNum));
+        chosenPoint.color = selectNum;
 
         pointList.clear();
-        pointList.add(chosenePoint);
+        pointList.add(chosenPoint);
 
-        Log.d("ChooseManager", "ChoosePoint : " + chosenePoint.toString());
+        Log.d("ChooseManager", "ChoosePoint : " + chosenPoint.toString());
     }
 
     public void registerObserver(ViewObsevrer obsevrer) {

@@ -11,7 +11,12 @@ public class IdleView implements ChooseView {
     }
 
     @Override
-    public void OnDraw(Canvas canvas, List<CPoint> lists, int colorTable[]) {
+    public void updatePointList(List<CPoint> list) {
+
+    }
+
+    @Override
+    public void OnDraw(Canvas canvas, int[] colorTable) {
 
     }
 }

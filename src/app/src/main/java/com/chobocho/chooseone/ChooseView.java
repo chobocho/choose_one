@@ -14,7 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.chobocho.chooseone.manager.CPoint;
-import com.chobocho.chooseone.manager.ChooseManager;
+import com.chobocho.chooseone.manager.ChooseManagerObserver;
 import com.chobocho.chooseone.viewmodel.ViewManager;
 
 import java.util.ArrayList;
@@ -25,14 +25,14 @@ import java.util.Random;
 public class ChooseView extends View  {
 	final  String LOG_TAG = this.getClass().getSimpleName();
 	Context mContext;
-	ChooseManager manager;
+	ChooseManagerObserver manager;
 	ViewManager viewManager;
 	AppCompatActivity activity;
 
 
-	int colorTable[] = new int[20];
+	int [] colorTable = new int[20];
 
-	final int REFRESH_TIMER = 20;
+	final int REFRESH_TIMER = 30;
 	final int TICK_TIMER = 800;
 	final int NO_TOUCH_TIMER = 60000;
 
@@ -61,9 +61,7 @@ public class ChooseView extends View  {
 		if (manager == null) {
 			return;
 		}
-
-		List<CPoint> list = manager.getPointList();
-		viewManager.OnDraw(canvas, list, colorTable);
+		viewManager.OnDraw(canvas, colorTable);
 	}
 
 	public void setScreenSize(int w, int h) {
@@ -75,7 +73,7 @@ public class ChooseView extends View  {
 	    this.activity = ac;
 	}
 
-	public void setManager(ChooseManager manager) {
+	public void setManager(ChooseManagerObserver manager) {
 		this.manager = manager;
 	}
 
