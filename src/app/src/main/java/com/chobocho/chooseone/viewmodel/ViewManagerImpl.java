@@ -3,11 +3,11 @@ package com.chobocho.chooseone.viewmodel;
 import android.graphics.Canvas;
 
 import com.chobocho.chooseone.manager.CPoint;
-import com.chobocho.chooseone.manager.ViewObsevrer;
+import com.chobocho.chooseone.manager.ViewObserver;
 
 import java.util.List;
 
-public class ViewManagerImpl implements ViewManager, ViewObsevrer {
+public class ViewManagerImpl implements ViewManager, ViewObserver {
     ChooseView view;
     ChooseView idleView;
     ChooseView selectingView;

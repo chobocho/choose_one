@@ -42,7 +42,7 @@ public class ChooseView extends View  {
     final int NO_TOUCH_TIMER_EXPIRED = 1004;
 
 	private int screenWidth;
-	private int screenHeigth;
+	private int screenHeight;
 
 	public ChooseView(Context context) {
 		super(context);
@@ -56,7 +56,7 @@ public class ChooseView extends View  {
 	public void onDraw(Canvas canvas) {
 		Paint paint = new Paint();
 		paint.setColor(Color.BLACK);
-		canvas.drawRect(0, 0, screenWidth, screenHeigth, paint);
+		canvas.drawRect(0, 0, screenWidth, screenHeight, paint);
 
 		if (manager == null) {
 			return;
@@ -66,7 +66,7 @@ public class ChooseView extends View  {
 
 	public void setScreenSize(int w, int h) {
 		this.screenWidth = w;
-		this.screenHeigth = h;
+		this.screenHeight = h;
 	}
 
 	public void setActivity(AppCompatActivity ac) {
@@ -103,14 +103,14 @@ public class ChooseView extends View  {
 					int pointCount = msg.arg1;
 					List<CPoint> list = (ArrayList<CPoint>) msg.obj;
 					manager.updatePoint(pointCount, list);
-					if (mHandler.hasMessages(UPDATE_SCREEN) == false) {
+					if (!mHandler.hasMessages(UPDATE_SCREEN)) {
 						update();
 					}
-					if (mHandler.hasMessages(UPDATE_TICK) == false) {
+					if (!mHandler.hasMessages(UPDATE_TICK)) {
 						increaseTick();
 					}
 					if (pointCount <= 1) {
-						if (mHandler.hasMessages(NO_TOUCH_TIMER_EXPIRED) == false) {
+						if (!mHandler.hasMessages(NO_TOUCH_TIMER_EXPIRED)) {
 							Log.d(LOG_TAG, "Start timer: NO_TOUCH_TIMER_EXPIRED");
 							Message message= new Message();
 							message.what = NO_TOUCH_TIMER_EXPIRED;
@@ -154,7 +154,7 @@ public class ChooseView extends View  {
 				return true;
 			}
 
-			List<CPoint> pointList = new ArrayList<CPoint>();
+			List<CPoint> pointList = new ArrayList<>();
 			int pointerCount = event.getPointerCount();
 
 			Log.d(LOG_TAG, "Point Count: " + pointerCount);

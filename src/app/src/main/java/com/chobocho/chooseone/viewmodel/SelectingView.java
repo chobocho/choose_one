@@ -24,7 +24,7 @@ public class SelectingView implements ChooseView{
 
     @Override
     public void updatePointList(List<CPoint> list) {
-        this.list = new ArrayList<CPoint>(list);
+        this.list = new ArrayList<>(list);
     }
 
     @Override

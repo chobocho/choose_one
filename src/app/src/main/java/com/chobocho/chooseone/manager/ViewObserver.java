@@ -2,7 +2,7 @@ package com.chobocho.chooseone.manager;
 
 import java.util.List;
 
-public interface ViewObsevrer {
+public interface ViewObserver {
     void OnSetIdleMode();
     void OnSetSelectingMode();
     void OnSetSelectedMode();

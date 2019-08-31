@@ -1,6 +1,8 @@
 
 package com.chobocho.chooseone.state;
 
+import androidx.annotation.NonNull;
+
 import com.chobocho.chooseone.manager.ChooseManager;
 
 /**
@@ -26,6 +28,7 @@ public class IdleState extends IState {
     }
 
     @Override
+    @NonNull
     public String toString(){
         return "IdleState";
     }

@@ -12,10 +12,10 @@ import java.util.Random;
 
 public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
     private IState state;
-    private IState idleState;
-    private IState SelectingState;
-    private IState SelectedState;
-    private ViewObsevrer observer;
+    private final IState idleState;
+    private final IState SelectingState;
+    private final IState SelectedState;
+    private ViewObserver observer;
     List<CPoint> pointList;
 
     public ChooseManagerImpl() {
@@ -68,10 +68,6 @@ public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
         state.Init();
     }
 
-    public List<CPoint> getPointList() {
-        return pointList;
-    }
-
     public void choosePoint() {
         Random rnd = new Random();
         int selectNum = rnd.nextInt(pointList.size());
@@ -84,7 +80,7 @@ public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
         Log.d("ChooseManager", "ChoosePoint : " + chosenPoint.toString());
     }
 
-    public void registerObserver(ViewObsevrer obsevrer) {
-        this.observer = obsevrer;
+    public void registerObserver(ViewObserver observer) {
+        this.observer = observer;
     }
 }
