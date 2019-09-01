@@ -1,28 +1,25 @@
 package com.chobocho.chooseone.state;
 
-import com.chobocho.chooseone.manager.*;
+import com.chobocho.chooseone.manager.ChooseManager;
+import com.chobocho.chooseone.manager.ChooseManagerImpl;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
 
-public class IdleStateTest {
+public class SelectingStateTest {
     ChooseManager manager;
+    IState selectingState;
 
     @Before
     public void setUp() throws Exception {
         manager = new ChooseManagerImpl();
-    }
-
-    @After
-    public void tearDown() throws Exception {
+        selectingState = new SelectingState(manager);
     }
 
     @Test
     public void init() {
-        IState idleState = new IdleState(manager);
-        assert (idleState.mPointNum == 0);
     }
 
     @Test

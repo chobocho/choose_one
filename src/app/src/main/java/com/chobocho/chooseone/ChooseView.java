@@ -143,7 +143,7 @@ public class ChooseView extends View  {
 	};
 
 	public void finishApp() {
-		Toast.makeText(mContext, "There is no touch for 60 seconds. Finish this app!", Toast.LENGTH_LONG);
+		Toast.makeText(mContext, "There is no touch for 60 seconds. Finish this app!", Toast.LENGTH_LONG).show();
 		activity.finish();
 	}
 

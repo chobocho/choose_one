@@ -21,7 +21,6 @@ public abstract class IState {
 
     public void Init() {
         mTick = 0;
-        mPointNum = 0;
     }
 
     public void tick() {

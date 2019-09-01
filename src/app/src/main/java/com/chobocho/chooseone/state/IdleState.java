@@ -15,8 +15,8 @@ public class IdleState extends IState {
     public IdleState(ChooseManager manager) {
         this.manager = manager;
         super.Init();
+        mPointNum = 0;
     }
-
 
     @Override
     public void updatePointList(int point) {
