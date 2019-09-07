@@ -1,11 +1,13 @@
 package com.chobocho.chooseone.viewmodel;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 
 import com.chobocho.chooseone.manager.CPoint;
 import com.chobocho.chooseone.manager.ViewObserver;
 
 import java.util.List;
+import java.util.Random;
 
 public class ViewManagerImpl implements ViewManager, ViewObserver {
     ChooseView view;
@@ -13,7 +15,10 @@ public class ViewManagerImpl implements ViewManager, ViewObserver {
     ChooseView selectingView;
     ChooseView selectedView;
 
+    int [] colorTable = new int[20];
+
     public ViewManagerImpl() {
+        generatorColorTable();
         idleView = new IdleView();
         selectingView = new SelectingView();
         selectedView = new SelectedView();
@@ -21,7 +26,7 @@ public class ViewManagerImpl implements ViewManager, ViewObserver {
     }
 
     @Override
-    public void OnDraw(Canvas canvas, int[] colorTable) {
+    public void OnDraw(Canvas canvas) {
         if (view == null) {
             return;
         }
@@ -30,6 +35,7 @@ public class ViewManagerImpl implements ViewManager, ViewObserver {
 
     @Override
     public void OnSetIdleMode() {
+        generatorColorTable();
         view = idleView;
         view.init();
     }
@@ -50,4 +56,17 @@ public class ViewManagerImpl implements ViewManager, ViewObserver {
     public void updatePointList(List<CPoint> list) {
         view.updatePointList(list);
     }
+
+
+    public void generatorColorTable() {
+        for (int i = 0; i < 20; i++) {
+            colorTable[i] = getRandomColor();
+        }
+    }
+
+    public int getRandomColor(){
+        Random rnd = new Random();
+        return Color.argb(255, 56 + rnd.nextInt(200), 56 + rnd.nextInt(200), 56 + rnd.nextInt(200));
+    }
+
 }

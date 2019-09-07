@@ -37,10 +37,6 @@ public class ChooseView extends View  {
 		super(context);
 
 		listener = new ViewListener();
-
-		for (int i = 0; i < 20; i++) {
-			colorTable[i] = getRandomColor();
-		}
 	}
 
 	public void onDraw(Canvas canvas) {
@@ -51,7 +47,7 @@ public class ChooseView extends View  {
 		if (viewManager == null) {
 			return;
 		}
-		viewManager.OnDraw(canvas, colorTable);
+		viewManager.OnDraw(canvas);
 	}
 
 	public void setScreenSize(int w, int h) {
@@ -125,11 +121,6 @@ public class ChooseView extends View  {
 			mHandler.sendMessage(msg);
 
 			return true;
-	}
-
-	public int getRandomColor(){
-		Random rnd = new Random();
-		return Color.argb(255, 56 + rnd.nextInt(200), 56 + rnd.nextInt(200), 56 + rnd.nextInt(200));
 	}
 
 	public class ViewListener {
