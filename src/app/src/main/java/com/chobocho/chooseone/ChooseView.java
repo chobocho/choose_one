@@ -16,19 +16,17 @@ import com.chobocho.chooseone.viewmodel.ViewManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 
 public class ChooseView extends View  {
-	final  String LOG_TAG = this.getClass().getSimpleName();
-	final static int UPDATE_SCREEN = 1001;
-	final static int PRESS_KEY = 1002;
+	private final String LOG_TAG = this.getClass().getSimpleName();
+	private final static int UPDATE_SCREEN = 1001;
+	private final static int PRESS_KEY = 1002;
 
-	DrawEngine drawEngine;
-	ViewManager viewManager;
-	ViewListener listener;
-
-	int [] colorTable = new int[20];
+	private DrawEngine drawEngine;
+	private ViewManager viewManager;
+	private final ViewListener listener;
+    private Paint paint;
 
 	private int screenWidth;
 	private int screenHeight;
@@ -37,10 +35,10 @@ public class ChooseView extends View  {
 		super(context);
 
 		listener = new ViewListener();
+		paint = new Paint();
 	}
 
 	public void onDraw(Canvas canvas) {
-		Paint paint = new Paint();
 		paint.setColor(Color.BLACK);
 		canvas.drawRect(0, 0, screenWidth, screenHeight, paint);
 
@@ -57,23 +55,18 @@ public class ChooseView extends View  {
 
 	public void setDrawEngine(DrawEngine drawEngine) {
 		this.drawEngine = drawEngine;
-
+		if (drawEngine == null) {
+			Log.e(LOG_TAG, "Fatal: drawEngine is null");
+		}
 		drawEngine.setListener(this.listener);
-		drawEngine.init();
-		drawEngine.start();
 	}
 
 	public void setViewManager(ViewManager viewManager) {
         this.viewManager = viewManager;
 	}
 
-	public void updateScreen() {
-		Log.d(LOG_TAG, "View.updateScreen()");
-		Message message= new Message();
-		message.what = UPDATE_SCREEN;
-	}
 
-	Handler mHandler = new Handler() {
+	final Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			Log.d(LOG_TAG, "There is event : " + msg.what);
 			switch(msg.what) {
@@ -124,7 +117,7 @@ public class ChooseView extends View  {
 	}
 
 	public class ViewListener {
-		public  ViewListener() {
+		ViewListener() {
 
 		}
 		public void update() {

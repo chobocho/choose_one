@@ -8,7 +8,7 @@ import org.junit.Test;
 
 
 public class IdleStateTest {
-    ChooseManager manager;
+    private ChooseManager manager;
 
     @Before
     public void setUp() throws Exception {

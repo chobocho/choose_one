@@ -16,7 +16,7 @@ public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
     private final IState SelectingState;
     private final IState SelectedState;
     private ViewObserver observer;
-    List<CPoint> pointList;
+    private List<CPoint> pointList;
 
     public ChooseManagerImpl() {
         idleState = new IdleState(this);

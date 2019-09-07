@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class SelectedStateTest {
-    ChooseManager manager;
-    IState selectedState;
+    private ChooseManager manager;
+    private IState selectedState;
 
     @Before
     public void setUp() throws Exception {

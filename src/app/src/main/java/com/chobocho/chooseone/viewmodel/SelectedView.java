@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectedView implements ChooseView {
-    final String LOG_TAG = this.getClass().getSimpleName();
-    int tick;
-    int direction = 1;
-    List<CPoint> list;
+    private final String LOG_TAG = this.getClass().getSimpleName();
+    private int tick;
+    private int direction = 1;
+    private List<CPoint> list;
 
     @Override
     public void init(){

@@ -11,10 +11,10 @@ import com.chobocho.chooseone.viewmodel.DrawEngineImpl;
 import com.chobocho.chooseone.viewmodel.ViewManagerImpl;
 
 public class MainActivity extends AppCompatActivity {
-    ChooseManagerObserver chooseManager;
-    ChooseView chooseView;
-    DrawEngine drawEngine;
-    ViewManagerImpl viewManager;
+    private ChooseManagerObserver chooseManager;
+    private ChooseView chooseView;
+    private DrawEngine drawEngine;
+    private ViewManagerImpl viewManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -11,11 +11,11 @@ import java.util.Random;
 
 public class ViewManagerImpl implements ViewManager, ViewObserver {
     ChooseView view;
-    ChooseView idleView;
-    ChooseView selectingView;
-    ChooseView selectedView;
+    final ChooseView idleView;
+    final ChooseView selectingView;
+    final ChooseView selectedView;
 
-    int [] colorTable = new int[20];
+    final int [] colorTable = new int[20];
 
     public ViewManagerImpl() {
         generatorColorTable();

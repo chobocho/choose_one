@@ -14,7 +14,7 @@ public abstract class IState {
     int mTick;
     int mPointNum;
 
-    public IState() {
+    IState() {
 
     }
 

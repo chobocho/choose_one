@@ -6,11 +6,9 @@ import com.chobocho.chooseone.manager.ChooseManagerImpl;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class SelectingStateTest {
-    ChooseManager manager;
-    IState selectingState;
+    private ChooseManager manager;
+    private IState selectingState;
 
     @Before
     public void setUp() throws Exception {

@@ -16,23 +16,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DrawEngineImpl implements DrawEngine {
-    final  String LOG_TAG = this.getClass().getSimpleName();
+    private final  String LOG_TAG = this.getClass().getSimpleName();
 
-    final int REFRESH_TIMER = 30;
-    final int TICK_TIMER = 800;
-    final int NO_TOUCH_TIMER = 60000;
+    private final int REFRESH_TIMER = 30;
+    private final int TICK_TIMER = 800;
+    private final int NO_TOUCH_TIMER = 60000;
 
-    final int UPDATE_SCREEN = 1001;
-    final int PRESS_KEY = 1002;
-    final int UPDATE_TICK = 1003;
-    final int NO_TOUCH_TIMER_EXPIRED = 1004;
+    private final int UPDATE_SCREEN = 1001;
+    private final int PRESS_KEY = 1002;
+    private final int UPDATE_TICK = 1003;
+    private final int NO_TOUCH_TIMER_EXPIRED = 1004;
 
-    AppCompatActivity activity;
-    ChooseManagerObserver manager;
-    ChooseView.ViewListener listener;
-    Context mContext;
+    private AppCompatActivity activity;
+    private final ChooseManagerObserver manager;
+    private ChooseView.ViewListener listener;
+    private final Context mContext;
 
-    Handler mHandler = new Handler() {
+    final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             Log.d(LOG_TAG, "There is event : " + msg.what);
             switch(msg.what) {
@@ -84,16 +84,6 @@ public class DrawEngineImpl implements DrawEngine {
     }
 
     @Override
-    public void init() {
-
-    }
-
-    @Override
-    public void start() {
-
-    }
-
-    @Override
     public void setListener(ChooseView.ViewListener listener) {
         this.listener = listener;
     }
@@ -130,7 +120,7 @@ public class DrawEngineImpl implements DrawEngine {
         mHandler.sendMessageDelayed(message, REFRESH_TIMER);
     }
 
-    public void finishApp() {
+    private void finishApp() {
         Toast.makeText(mContext, "There is no touch for 60 seconds. Finish this app!", Toast.LENGTH_LONG).show();
         Log.e(LOG_TAG, "There is no touch for 60 seconds. Finish this app!");
         activity.finish();
