@@ -6,11 +6,14 @@ import android.os.Bundle;
 
 import com.chobocho.chooseone.manager.ChooseManagerImpl;
 import com.chobocho.chooseone.manager.ChooseManagerObserver;
+import com.chobocho.chooseone.viewmodel.DrawEngine;
+import com.chobocho.chooseone.viewmodel.DrawEngineImpl;
 import com.chobocho.chooseone.viewmodel.ViewManagerImpl;
 
 public class MainActivity extends AppCompatActivity {
     ChooseManagerObserver chooseManager;
     ChooseView chooseView;
+    DrawEngine drawEngine;
     ViewManagerImpl viewManager;
 
     @Override
@@ -20,14 +23,17 @@ public class MainActivity extends AppCompatActivity {
         chooseManager = new ChooseManagerImpl();
         chooseManager.registerObserver(viewManager);
 
+        drawEngine = new DrawEngineImpl(this, chooseManager);
+        drawEngine.setActivity(this);
+
         int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
         int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
 
         chooseView = new ChooseView(this);
-        chooseView.setActivity(this);
+
         chooseView.setScreenSize(screenWidth,screenHeight);
-        chooseView.setManager(chooseManager);
         chooseView.setViewManager(viewManager);
+        chooseView.setDrawEngine(drawEngine);
         setContentView(chooseView);
     }
 }

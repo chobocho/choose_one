@@ -9,12 +9,9 @@ import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.chobocho.chooseone.manager.CPoint;
-import com.chobocho.chooseone.manager.ChooseManagerObserver;
+import com.chobocho.chooseone.viewmodel.DrawEngine;
 import com.chobocho.chooseone.viewmodel.ViewManager;
 
 import java.util.ArrayList;
@@ -24,29 +21,22 @@ import java.util.Random;
 
 public class ChooseView extends View  {
 	final  String LOG_TAG = this.getClass().getSimpleName();
-	Context mContext;
-	ChooseManagerObserver manager;
-	ViewManager viewManager;
-	AppCompatActivity activity;
+	final static int UPDATE_SCREEN = 1001;
+	final static int PRESS_KEY = 1002;
 
+	DrawEngine drawEngine;
+	ViewManager viewManager;
+	ViewListener listener;
 
 	int [] colorTable = new int[20];
-
-	final int REFRESH_TIMER = 30;
-	final int TICK_TIMER = 800;
-	final int NO_TOUCH_TIMER = 60000;
-
-	final int UPDATE_SCREEN = 1001;
-	final int PRESS_KEY = 1002;
-	final int UPDATE_TICK = 1003;
-    final int NO_TOUCH_TIMER_EXPIRED = 1004;
 
 	private int screenWidth;
 	private int screenHeight;
 
 	public ChooseView(Context context) {
 		super(context);
-		this.mContext = context;
+
+		listener = new ViewListener();
 
 		for (int i = 0; i < 20; i++) {
 			colorTable[i] = getRandomColor();
@@ -58,7 +48,7 @@ public class ChooseView extends View  {
 		paint.setColor(Color.BLACK);
 		canvas.drawRect(0, 0, screenWidth, screenHeight, paint);
 
-		if (manager == null) {
+		if (viewManager == null) {
 			return;
 		}
 		viewManager.OnDraw(canvas, colorTable);
@@ -69,30 +59,22 @@ public class ChooseView extends View  {
 		this.screenHeight = h;
 	}
 
-	public void setActivity(AppCompatActivity ac) {
-	    this.activity = ac;
-	}
+	public void setDrawEngine(DrawEngine drawEngine) {
+		this.drawEngine = drawEngine;
 
-	public void setManager(ChooseManagerObserver manager) {
-		this.manager = manager;
+		drawEngine.setListener(this.listener);
+		drawEngine.init();
+		drawEngine.start();
 	}
 
 	public void setViewManager(ViewManager viewManager) {
         this.viewManager = viewManager;
 	}
 
-	public void increaseTick() {
-		Log.d(LOG_TAG, "increaseTick()");
-		Message message= new Message();
-		message.what = UPDATE_TICK;
-		mHandler.sendMessageDelayed(message, TICK_TIMER);
-	}
-
-	public void update() {
-		Log.d(LOG_TAG, "View.update()");
+	public void updateScreen() {
+		Log.d(LOG_TAG, "View.updateScreen()");
 		Message message= new Message();
 		message.what = UPDATE_SCREEN;
-        mHandler.sendMessageDelayed(message, REFRESH_TIMER);
 	}
 
 	Handler mHandler = new Handler() {
@@ -102,55 +84,19 @@ public class ChooseView extends View  {
 				case PRESS_KEY:
 					int pointCount = msg.arg1;
 					List<CPoint> list = (ArrayList<CPoint>) msg.obj;
-					manager.updatePoint(pointCount, list);
-					if (!mHandler.hasMessages(UPDATE_SCREEN)) {
-						update();
-					}
-					if (!mHandler.hasMessages(UPDATE_TICK)) {
-						increaseTick();
-					}
-					if (pointCount <= 1) {
-						if (!mHandler.hasMessages(NO_TOUCH_TIMER_EXPIRED)) {
-							Log.d(LOG_TAG, "Start timer: NO_TOUCH_TIMER_EXPIRED");
-							Message message= new Message();
-							message.what = NO_TOUCH_TIMER_EXPIRED;
-							mHandler.sendMessageDelayed(message, NO_TOUCH_TIMER);
-						}
-					} else {
-						if (mHandler.hasMessages(NO_TOUCH_TIMER_EXPIRED)) {
-							mHandler.removeMessages(NO_TOUCH_TIMER_EXPIRED);
-							Log.d(LOG_TAG, "Remove timer: NO_TOUCH_TIMER_EXPIRED");
-						}
-					}
+					drawEngine.updatePoint(pointCount, list);
 					break;
 				case UPDATE_SCREEN:
-					if (manager == null) {
-						return;
-					}
 					invalidate();
-					update();
-					break;
-				case UPDATE_TICK:
-					manager.tick();
-					increaseTick();
-					break;
-				case NO_TOUCH_TIMER_EXPIRED:
-					Log.d(LOG_TAG, "Timer expired: NO_TOUCH_TIMER_EXPIRED");
-					finishApp();
 					break;
 			}
 		}
 	};
 
-	public void finishApp() {
-		Toast.makeText(mContext, "There is no touch for 60 seconds. Finish this app!", Toast.LENGTH_LONG).show();
-		activity.finish();
-	}
-
 	public boolean onTouchEvent(MotionEvent event) {
 		    //Log.d(LOG_TAG, ">> X: " + event.getX() + " Y: " + event.getY());
 
-			if (manager == null) {
+			if (drawEngine == null) {
 				return true;
 			}
 
@@ -186,4 +132,14 @@ public class ChooseView extends View  {
 		return Color.argb(255, 56 + rnd.nextInt(200), 56 + rnd.nextInt(200), 56 + rnd.nextInt(200));
 	}
 
+	public class ViewListener {
+		public  ViewListener() {
+
+		}
+		public void update() {
+			Message message= new Message();
+			message.what = ChooseView.UPDATE_SCREEN;
+			mHandler.sendMessage(message);
+		}
+	}
 }

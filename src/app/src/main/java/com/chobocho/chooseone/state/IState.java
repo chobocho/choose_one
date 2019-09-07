@@ -1,4 +1,3 @@
-
 package com.chobocho.chooseone.state;
 
 import com.chobocho.chooseone.manager.ChooseManager;
