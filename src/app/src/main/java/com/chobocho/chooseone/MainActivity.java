@@ -19,15 +19,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewManager = new ViewManagerImpl();
+
+        int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+        int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
+
+        viewManager = new ViewManagerImpl(screenWidth);
         chooseManager = new ChooseManagerImpl();
         chooseManager.registerObserver(viewManager);
 
         drawEngine = new DrawEngineImpl(this, chooseManager);
         drawEngine.setActivity(this);
-
-        int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
-        int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
 
         chooseView = new ChooseView(this);
 
@@ -35,5 +36,21 @@ public class MainActivity extends AppCompatActivity {
         chooseView.setViewManager(viewManager);
         chooseView.setDrawEngine(drawEngine);
         setContentView(chooseView);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if (drawEngine != null) {
+            drawEngine.stopEngnine();
+        }
+    }
+
+    @Override
+    protected  void onResume() {
+        super.onResume();
+        if (drawEngine != null) {
+            drawEngine.resumeEngnine();
+        }
     }
 }

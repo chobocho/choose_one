@@ -12,9 +12,16 @@ import java.util.List;
 
 public class SelectedView implements ChooseView {
     private final String LOG_TAG = this.getClass().getSimpleName();
+    private int screenWidth;
+    private int FINGER_RADIUS;
     private int tick;
     private int direction = 1;
     private List<CPoint> list;
+
+    public SelectedView(int screenWidth) {
+        this.screenWidth = screenWidth;
+        FINGER_RADIUS = (int)this.screenWidth / 5;
+    }
 
     @Override
     public void init(){
@@ -57,7 +64,7 @@ public class SelectedView implements ChooseView {
             canvas.drawLine(point.x, point.y, endX, endY, paint);
         }
 
-        int radius = 200 + tick;
+        int radius = FINGER_RADIUS + tick;
         int smallRadius = radius - 30;
 
         canvas.drawCircle(point.x, point.y, radius, paint);

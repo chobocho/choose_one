@@ -17,11 +17,11 @@ public class ViewManagerImpl implements ViewManager, ViewObserver {
 
     final int [] colorTable = new int[20];
 
-    public ViewManagerImpl() {
+    public ViewManagerImpl(int screenWidth) {
         generatorColorTable();
-        idleView = new IdleView();
-        selectingView = new SelectingView();
-        selectedView = new SelectedView();
+        idleView = new IdleView(screenWidth);
+        selectingView = new SelectingView(screenWidth);
+        selectedView = new SelectedView(screenWidth);
         view = idleView;
     }
 

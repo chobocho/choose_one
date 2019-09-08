@@ -12,9 +12,16 @@ import java.util.List;
 
 public class SelectingView implements ChooseView{
     final  String LOG_TAG = this.getClass().getSimpleName();
+    private int screenWidth;
+    private int FINGER_RADIUS;
     int tick;
     int direction = 1;
     List<CPoint> list;
+
+    public SelectingView(int screenWidth) {
+        this.screenWidth = screenWidth;
+        FINGER_RADIUS = (int)this.screenWidth / 6;
+    }
 
     @Override
     public void init(){
@@ -42,7 +49,7 @@ public class SelectingView implements ChooseView{
 
         Paint paint = new Paint();
 
-        int radius = 150 + tick;
+        int radius = FINGER_RADIUS + tick;
         int smallRadius = radius - 30;
 
         for (CPoint point : list) {

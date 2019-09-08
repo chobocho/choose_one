@@ -5,6 +5,12 @@ import com.chobocho.chooseone.manager.CPoint;
 import java.util.List;
 
 public class IdleView implements ChooseView {
+    private int screenWidth;
+
+    public IdleView(int screenWidth) {
+        this.screenWidth = screenWidth;
+    }
+
     @Override
     public void init(){
 

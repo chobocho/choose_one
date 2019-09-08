@@ -32,7 +32,7 @@ public class DrawEngineImpl implements DrawEngine {
     private ChooseView.ViewListener listener;
     private final Context mContext;
 
-    final Handler mHandler = new Handler() {
+    Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             Log.d(LOG_TAG, "There is event : " + msg.what);
             switch(msg.what) {
@@ -84,6 +84,23 @@ public class DrawEngineImpl implements DrawEngine {
     }
 
     @Override
+    public void resumeEngnine(){
+        Log.d(LOG_TAG, "Resume drawEngine");
+        if (mHandler == null) {
+            return;
+        }
+
+        if (!mHandler.hasMessages(UPDATE_SCREEN)) {
+            update();
+        }
+
+        if (!mHandler.hasMessages(UPDATE_TICK)) {
+            increaseTick();
+        }
+    }
+
+
+    @Override
     public void setListener(ChooseView.ViewListener listener) {
         this.listener = listener;
     }
@@ -94,7 +111,25 @@ public class DrawEngineImpl implements DrawEngine {
     }
 
     @Override
+    public void stopEngnine(){
+        if (mHandler == null) {
+            return;
+        }
+
+        if (mHandler.hasMessages(UPDATE_SCREEN)) {
+            mHandler.removeMessages(UPDATE_SCREEN);
+        }
+
+        if (mHandler.hasMessages(UPDATE_TICK)) {
+            mHandler.removeMessages(UPDATE_TICK);
+        }
+    }
+
+    @Override
     public void updatePoint(int pointCount, List<CPoint> pointList) {
+        if (mHandler == null) {
+            return;
+        }
         Message msg = new Message();
         msg.what = PRESS_KEY;
         msg.arg1 = pointCount;
@@ -115,6 +150,10 @@ public class DrawEngineImpl implements DrawEngine {
         }
         listener.update();
 
+        if (mHandler == null) {
+            return;
+        }
+
         Message message= new Message();
         message.what = UPDATE_SCREEN;
         mHandler.sendMessageDelayed(message, REFRESH_TIMER);
@@ -123,6 +162,8 @@ public class DrawEngineImpl implements DrawEngine {
     private void finishApp() {
         Toast.makeText(mContext, "There is no touch for 60 seconds. Finish this app!", Toast.LENGTH_LONG).show();
         Log.e(LOG_TAG, "There is no touch for 60 seconds. Finish this app!");
+        stopEngnine();
+        mHandler = null;
         activity.finish();
     }
 }
