@@ -164,6 +164,16 @@ public class DrawEngineImpl implements DrawEngine {
         Log.e(LOG_TAG, "There is no touch for 60 seconds. Finish this app!");
         stopEngnine();
         mHandler = null;
+        this.listener = null;
         activity.finish();
+    }
+
+    @Override
+    public void destroy() {
+        Toast.makeText(mContext, "Finish this app!", Toast.LENGTH_LONG).show();
+        Log.e(LOG_TAG, "Finish this app!");
+        stopEngnine();
+        mHandler = null;
+        this.listener = null;
     }
 }

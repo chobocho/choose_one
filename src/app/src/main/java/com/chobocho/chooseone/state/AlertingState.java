@@ -1,27 +1,24 @@
-
 package com.chobocho.chooseone.state;
 
 import androidx.annotation.NonNull;
+
 import com.chobocho.chooseone.manager.ChooseManager;
 
-/**
- * 
- */
-public class SelectingState extends IState {
-    private final int NEXT_TICK = 2;
+public class AlertingState extends IState {
+    private final int NEXT_TICK = 1;
 
     /**
      * Default constructor
      */
-    public SelectingState(ChooseManager manager) {
+    public AlertingState(ChooseManager manager) {
         this.manager = manager;
         super.Init();
     }
-
+    
     public void tick() {
         mTick++;
         if (mTick > NEXT_TICK) {
-            manager.transit(IState.ALERTING);
+            manager.transit(IState.SELECTED);
         }
     }
 
@@ -31,9 +28,15 @@ public class SelectingState extends IState {
             return;
         }
 
-        mPointNum = point;
-        if (mPointNum < 2) {
+        if (point < 2) {
             manager.transit(IState.IDLE);
+            mTick = 0;
+            return;
+        }
+
+        if (mPointNum !=  point) {
+            manager.transit(IState.SELECTING);
+            mPointNum = point;
         }
         mTick = 0;
     }
@@ -41,6 +44,6 @@ public class SelectingState extends IState {
     @Override
     @NonNull
     public String toString(){
-        return "SelectingState";
+        return "AlertingState";
     }
 }

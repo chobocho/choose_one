@@ -13,6 +13,7 @@ public class ViewManagerImpl implements ViewManager, ViewObserver {
     ChooseView view;
     final ChooseView idleView;
     final ChooseView selectingView;
+    final ChooseView alertingView;
     final ChooseView selectedView;
 
     final int [] colorTable = new int[20];
@@ -21,6 +22,7 @@ public class ViewManagerImpl implements ViewManager, ViewObserver {
         generatorColorTable();
         idleView = new IdleView(screenWidth);
         selectingView = new SelectingView(screenWidth);
+        alertingView = new AlertingView(screenWidth);
         selectedView = new SelectedView(screenWidth);
         view = idleView;
     }
@@ -43,6 +45,12 @@ public class ViewManagerImpl implements ViewManager, ViewObserver {
     @Override
     public void OnSetSelectingMode() {
         view = selectingView;
+        view.init();
+    }
+
+    @Override
+    public void OnSetAlertingMode() {
+        view = alertingView;
         view.init();
     }
 

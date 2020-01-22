@@ -13,4 +13,5 @@ public interface DrawEngine {
     void setListener(ChooseView.ViewListener listener);
     void stopEngnine();
     void updatePoint(int pointCount, List<CPoint> lists);
+    void destroy();
 }

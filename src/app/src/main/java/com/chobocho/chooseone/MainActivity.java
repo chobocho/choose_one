@@ -53,4 +53,13 @@ public class MainActivity extends AppCompatActivity {
             drawEngine.resumeEngnine();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (drawEngine != null) {
+            drawEngine.destroy();
+            drawEngine = null;
+        }
+    }
 }

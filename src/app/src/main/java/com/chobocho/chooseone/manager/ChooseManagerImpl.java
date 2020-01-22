@@ -2,6 +2,7 @@ package com.chobocho.chooseone.manager;
 
 import android.util.Log;
 
+import com.chobocho.chooseone.state.AlertingState;
 import com.chobocho.chooseone.state.IState;
 import com.chobocho.chooseone.state.IdleState;
 import com.chobocho.chooseone.state.SelectedState;
@@ -13,15 +14,17 @@ import java.util.Random;
 public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
     private IState state;
     private final IState idleState;
-    private final IState SelectingState;
-    private final IState SelectedState;
+    private final IState selectingState;
+    private final IState alertingState;
+    private final IState selectedState;
     private ViewObserver observer;
     private List<CPoint> pointList;
 
     public ChooseManagerImpl() {
         idleState = new IdleState(this);
-        SelectingState = new SelectingState(this);
-        SelectedState = new SelectedState(this);
+        selectingState = new SelectingState(this);
+        alertingState = new AlertingState(this);
+        selectedState = new SelectedState(this);
         state = idleState;
     }
 
@@ -39,12 +42,17 @@ public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
                 observer.OnSetIdleMode();
                 break;
             case IState.SELECTING:
-                setState(SelectingState);
+                setState(selectingState);
                 observer.OnSetSelectingMode();
                 observer.updatePointList(pointList);
                 break;
+            case IState.ALERTING:
+                setState(alertingState);
+                observer.OnSetAlertingMode();
+                observer.updatePointList(pointList);
+                break;
             case IState.SELECTED:
-                setState(SelectedState);
+                setState(selectedState);
                 observer.OnSetSelectedMode();
                 observer.updatePointList(pointList);
                 break;
@@ -53,7 +61,7 @@ public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
 
     public void updatePoint(int pointCount, List<CPoint> list) {
         Log.d("ChooseManager", "updatePoint " + pointCount);
-        if (state == SelectedState) {
+        if (state == selectedState) {
             state.updatePointList(pointCount);
             return;
         }

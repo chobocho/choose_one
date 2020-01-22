@@ -9,8 +9,9 @@ import com.chobocho.chooseone.manager.CPoint;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-public class SelectingView implements ChooseView{
+public class AlertingView implements ChooseView{
     final  String LOG_TAG = this.getClass().getSimpleName();
     private int screenWidth;
     private int FINGER_RADIUS;
@@ -18,7 +19,7 @@ public class SelectingView implements ChooseView{
     int direction = 1;
     List<CPoint> list;
 
-    public SelectingView(int screenWidth) {
+    public AlertingView(int screenWidth) {
         this.screenWidth = screenWidth;
         FINGER_RADIUS = (int)this.screenWidth / 6;
     }
@@ -39,6 +40,7 @@ public class SelectingView implements ChooseView{
         if ((list == null) || (list.size() == 0)) {
             return;
         }
+
         tick += direction;
 
         if (tick > 20) {
@@ -54,11 +56,6 @@ public class SelectingView implements ChooseView{
 
         for (CPoint point : list) {
             Log.d(LOG_TAG, point.toString());
-
-            paint.setColor(colorTable[point.id]);
-            canvas.drawCircle(point.x, point.y, radius+30, paint);
-            paint.setColor(Color.BLACK);
-            canvas.drawCircle(point.x, point.y, smallRadius+40, paint);
 
             paint.setColor(colorTable[point.id]);
             canvas.drawCircle(point.x, point.y, radius, paint);
