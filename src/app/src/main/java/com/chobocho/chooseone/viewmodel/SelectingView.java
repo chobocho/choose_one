@@ -58,7 +58,7 @@ public class SelectingView implements ChooseView{
             paint.setColor(colorTable[point.id]);
             canvas.drawCircle(point.x, point.y, radius+30, paint);
             paint.setColor(Color.BLACK);
-            canvas.drawCircle(point.x, point.y, smallRadius+40, paint);
+            canvas.drawCircle(point.x, point.y, radius+10, paint);
 
             paint.setColor(colorTable[point.id]);
             canvas.drawCircle(point.x, point.y, radius, paint);
