@@ -1,8 +1,10 @@
 package com.chobocho.chooseone.viewmodel;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Vibrator;
 import android.util.Log;
 
 import com.chobocho.chooseone.manager.CPoint;
@@ -12,6 +14,7 @@ import java.util.List;
 
 public class SelectedView implements ChooseView {
     private final String LOG_TAG = this.getClass().getSimpleName();
+    private final int VIBRATE_TIMER = 800;
     private final static int CENTER_TYPE = 0;
     private final static int HOLE_TYPE = 1;
     private int screenWidth;
@@ -20,10 +23,12 @@ public class SelectedView implements ChooseView {
     private int direction = 1;
     private List<CPoint> list;
     private int drawType = CENTER_TYPE;
+    private Context mContext;
 
-    public SelectedView(int screenWidth) {
+    public SelectedView(Context context, int screenWidth) {
         this.screenWidth = screenWidth;
         FINGER_RADIUS = (int)this.screenWidth / 5;
+        mContext= context;
     }
 
     @Override
@@ -31,6 +36,8 @@ public class SelectedView implements ChooseView {
         tick = 0;
         direction = 1;
         drawType =  (Math.random() > 0.61) ?  CENTER_TYPE : HOLE_TYPE;
+        Vibrator vibrator = (Vibrator)mContext.getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(VIBRATE_TIMER);
     }
 
     @Override

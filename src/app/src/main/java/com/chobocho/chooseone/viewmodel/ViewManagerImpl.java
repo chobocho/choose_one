@@ -27,7 +27,7 @@ public class ViewManagerImpl implements ViewManager, ViewObserver {
         idleView = new IdleView(screenWidth, message);
         selectingView = new SelectingView(screenWidth);
         alertingView = new AlertingView(screenWidth);
-        selectedView = new SelectedView(screenWidth);
+        selectedView = new SelectedView(context, screenWidth);
         view = idleView;
     }
 
