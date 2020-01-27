@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">제비뽑기</string>
+    <string name="raise_finger">두 개 이상의 손가락을 올려주세요</string>
+</resources>

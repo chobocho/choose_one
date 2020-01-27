@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ChooseOne</string>
+    <string name="raise_finger">Raise two or more fingers</string>
 </resources>

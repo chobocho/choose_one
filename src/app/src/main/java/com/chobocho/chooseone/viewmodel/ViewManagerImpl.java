@@ -1,8 +1,10 @@
 package com.chobocho.chooseone.viewmodel;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 
+import com.chobocho.chooseone.R;
 import com.chobocho.chooseone.manager.CPoint;
 import com.chobocho.chooseone.manager.ViewObserver;
 
@@ -18,9 +20,11 @@ public class ViewManagerImpl implements ViewManager, ViewObserver {
 
     final int [] colorTable = new int[20];
 
-    public ViewManagerImpl(int screenWidth) {
+    public ViewManagerImpl(Context context, int screenWidth) {
         generatorColorTable();
-        idleView = new IdleView(screenWidth);
+
+        String message = context.getResources().getString(R.string.raise_finger);
+        idleView = new IdleView(screenWidth, message);
         selectingView = new SelectingView(screenWidth);
         alertingView = new AlertingView(screenWidth);
         selectedView = new SelectedView(screenWidth);

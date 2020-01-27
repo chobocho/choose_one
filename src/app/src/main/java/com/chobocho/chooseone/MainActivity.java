@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
         int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
 
-        viewManager = new ViewManagerImpl(screenWidth);
+        viewManager = new ViewManagerImpl(this, screenWidth);
         chooseManager = new ChooseManagerImpl();
         chooseManager.registerObserver(viewManager);
 
