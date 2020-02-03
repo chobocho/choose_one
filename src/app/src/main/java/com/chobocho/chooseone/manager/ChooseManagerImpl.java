@@ -78,6 +78,9 @@ public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
 
     public void choosePoint() {
         Random rnd = new Random();
+        if (pointList == null || pointList.isEmpty()) {
+            return;
+        }
         int selectNum = rnd.nextInt(pointList.size());
         CPoint chosenPoint = new CPoint(pointList.get(selectNum));
         chosenPoint.color = selectNum;
