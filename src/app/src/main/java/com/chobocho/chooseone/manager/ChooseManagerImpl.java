@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
+    public static final String CHOOSE_MANAGER = "ChooseManager";
     private IState state;
     private final IState idleState;
     private final IState selectingState;
@@ -57,10 +58,11 @@ public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
                 observer.updatePointList(pointList);
                 break;
         }
+        Log.d(CHOOSE_MANAGER, "State: " + state);
     }
 
     public void updatePoint(int pointCount, List<CPoint> list) {
-        Log.d("ChooseManager", "updatePoint " + pointCount);
+        Log.d(CHOOSE_MANAGER, "updatePoint " + pointCount + " " + list.size());
         if (state == selectedState) {
             state.updatePointList(pointCount);
             return;
@@ -71,7 +73,7 @@ public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
     }
 
     private void setState(IState nextState) {
-        Log.d("ChooseManager", nextState.toString());
+        Log.d(CHOOSE_MANAGER, nextState.toString());
         state = nextState;
         state.Init();
     }
@@ -88,7 +90,7 @@ public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
         pointList.clear();
         pointList.add(chosenPoint);
 
-        Log.d("ChooseManager", "ChoosePoint : " + chosenPoint.toString());
+        Log.d(CHOOSE_MANAGER, "ChoosePoint : " + chosenPoint.toString());
     }
 
     public void registerObserver(ViewObserver observer) {

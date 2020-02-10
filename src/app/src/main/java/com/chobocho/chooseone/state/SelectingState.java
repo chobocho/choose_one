@@ -8,7 +8,7 @@ import com.chobocho.chooseone.manager.ChooseManager;
  * 
  */
 public class SelectingState extends IState {
-    private final int NEXT_TICK = 2;
+    private final int NEXT_TICK = 1;
 
     /**
      * Default constructor
@@ -16,6 +16,12 @@ public class SelectingState extends IState {
     public SelectingState(ChooseManager manager) {
         this.manager = manager;
         super.Init();
+    }
+
+    @Override
+    public void Init() {
+        super.Init();
+        mPointNum = 0;
     }
 
     public void tick() {
@@ -27,15 +33,17 @@ public class SelectingState extends IState {
 
     @Override
     public void updatePointList(int point) {
-        if (mPointNum == point) {
+        if ((mPointNum > 0) && (mPointNum == point)) {
             return;
         }
 
+        mTick = 0;
         mPointNum = point;
+
         if (mPointNum < 2) {
             manager.transit(IState.IDLE);
         }
-        mTick = 0;
+
     }
 
     @Override

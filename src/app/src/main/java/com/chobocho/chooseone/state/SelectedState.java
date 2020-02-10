@@ -18,6 +18,7 @@ public class SelectedState extends IState {
         super.Init();
     }
 
+    @Override
     public void Init() {
         super.Init();
         this.manager.choosePoint();

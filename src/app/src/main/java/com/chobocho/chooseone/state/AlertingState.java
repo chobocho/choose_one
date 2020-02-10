@@ -14,7 +14,13 @@ public class AlertingState extends IState {
         this.manager = manager;
         super.Init();
     }
-    
+
+    @Override
+    public void Init() {
+        super.Init();
+        mPointNum = 0;
+    }
+
     public void tick() {
         mTick++;
         if (mTick > NEXT_TICK) {
@@ -24,9 +30,11 @@ public class AlertingState extends IState {
 
     @Override
     public void updatePointList(int point) {
-        if (mPointNum == point) {
+        if ((mPointNum > 0) && (mPointNum == point)) {
             return;
         }
+
+        mTick = 0;
 
         if (point < 2) {
             manager.transit(IState.IDLE);
@@ -34,11 +42,11 @@ public class AlertingState extends IState {
             return;
         }
 
-        if (mPointNum !=  point) {
-            manager.transit(IState.SELECTING);
+        if (mPointNum == 0) {
             mPointNum = point;
+        } else if (mPointNum !=  point) {
+            manager.transit(IState.SELECTING);
         }
-        mTick = 0;
     }
 
     @Override
