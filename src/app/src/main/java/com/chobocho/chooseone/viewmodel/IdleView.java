@@ -14,15 +14,17 @@ import java.util.List;
 
 public class IdleView implements ChooseView {
     private int screenWidth;
-    private String raise_finger = "";
+    private String[] raise_finger;
     private int tick;
     private int direction = 1;
     private List<CPoint> list;
     private int FINGER_RADIUS = 0;
 
-    public IdleView(int screenWidth, String message) {
+    public IdleView(int screenWidth, String[] message) {
+        raise_finger = new String[2];
         this.screenWidth = screenWidth;
-        raise_finger = message;
+        raise_finger[0] = message[0];
+        raise_finger[1] = message[1];
         FINGER_RADIUS = (int) this.screenWidth / 6;
     }
 
@@ -54,7 +56,8 @@ public class IdleView implements ChooseView {
         int textX = screenWidth/6 + tick;
         int textY = screenWidth/2 - tick;
         paint.setTextSize(textSize);
-        canvas.drawText(raise_finger, textX, textY, paint);
+        canvas.drawText(raise_finger[0], textX, textY, paint);
+        canvas.drawText(raise_finger[1], textX, textY+textSize*2, paint);
 
         if ((list == null) || (list.size() == 0)) {
             return;

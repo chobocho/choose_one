@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ChooseOne</string>
-    <string name="raise_finger">Raise two or more fingers</string>
+    <string name="raise_finger_msg1">Raise two or more fingers</string>
+    <string name="raise_finger_msg2">And wait 3 seconds</string>
 </resources>

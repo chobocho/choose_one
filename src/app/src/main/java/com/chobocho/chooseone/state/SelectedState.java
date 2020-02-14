@@ -8,7 +8,7 @@ import com.chobocho.chooseone.manager.ChooseManager;
  * 
  */
 public class SelectedState extends IState {
-    private final int NEXT_TICK = 4;
+    private final int NEXT_TICK = 3;
 
     /**
      * Default constructor

@@ -23,7 +23,9 @@ public class ViewManagerImpl implements ViewManager, ViewObserver {
     public ViewManagerImpl(Context context, int screenWidth) {
         generatorColorTable();
 
-        String message = context.getResources().getString(R.string.raise_finger);
+        String[] message = new String[2];
+        message[0] = context.getResources().getString(R.string.raise_finger_msg1);
+        message[1] = context.getResources().getString(R.string.raise_finger_msg2);
         idleView = new IdleView(screenWidth, message);
         selectingView = new SelectingView(screenWidth);
         alertingView = new AlertingView(screenWidth);
