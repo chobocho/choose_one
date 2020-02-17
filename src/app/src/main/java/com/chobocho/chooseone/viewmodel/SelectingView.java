@@ -1,5 +1,6 @@
 package com.chobocho.chooseone.viewmodel;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,14 +14,32 @@ import java.util.List;
 public class SelectingView implements ChooseView{
     final  String LOG_TAG = this.getClass().getSimpleName();
     private int screenWidth;
+    private int screenHeight;
     private int FINGER_RADIUS;
     int tick;
     int direction = 1;
     List<CPoint> list;
+    Bitmap mBigNumber;
 
-    public SelectingView(int screenWidth) {
+    Paint mPaint4BigNumber;
+
+    public SelectingView(int screenWidth, int screenHeight, Bitmap bigNumber) {
         this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
         FINGER_RADIUS = (int)this.screenWidth / 6;
+
+        if (bigNumber != null) {
+            double radio = bigNumber.getWidth() / screenWidth * 0.8;
+            int nx = (int) (bigNumber.getWidth() * radio);
+            int ny = (int) (bigNumber.getHeight() * radio);
+            mBigNumber = Bitmap.createScaledBitmap(bigNumber, nx, ny, true);
+        }
+
+        mPaint4BigNumber = new Paint();
+        mPaint4BigNumber.setColor(Color.WHITE);
+        mPaint4BigNumber.setStrokeWidth(3);
+        mPaint4BigNumber.setAntiAlias(true);
+        mPaint4BigNumber.setAlpha(90);
     }
 
     @Override
@@ -45,6 +64,13 @@ public class SelectingView implements ChooseView{
             direction = -1;
         } else if (tick <= 0) {
             direction = 1;
+        }
+
+        if (mBigNumber != null) {
+            int textX = (screenWidth - mBigNumber.getWidth()) / 2;
+            int textY = (screenHeight - mBigNumber.getHeight()) / 2;
+
+            canvas.drawBitmap(mBigNumber, textX,  textY, mPaint4BigNumber);
         }
 
         Paint paint = new Paint();

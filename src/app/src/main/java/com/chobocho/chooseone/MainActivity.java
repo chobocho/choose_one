@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
         int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
 
-        viewManager = new ViewManagerImpl(this, screenWidth);
+        viewManager = new ViewManagerImpl(this, screenWidth, screenHeight);
         chooseManager = new ChooseManagerImpl();
         chooseManager.registerObserver(viewManager);
 
@@ -60,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
         if (drawEngine != null) {
             drawEngine.destroy();
             drawEngine = null;
+        }
+        if (viewManager != null) {
+            viewManager.recycle();
+            viewManager = null;
         }
     }
 }

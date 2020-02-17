@@ -41,6 +41,7 @@ public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
             case IState.IDLE:
                 setState(idleState);
                 observer.OnSetIdleMode();
+                observer.updatePointList(pointList);
                 break;
             case IState.SELECTING:
                 setState(selectingState);

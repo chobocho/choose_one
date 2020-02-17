@@ -1,6 +1,8 @@
 package com.chobocho.chooseone.viewmodel;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 
@@ -19,16 +21,21 @@ public class ViewManagerImpl implements ViewManager, ViewObserver {
     final ChooseView selectedView;
 
     final int [] colorTable = new int[20];
+    final Bitmap[] mBigNumber = new Bitmap[2];
 
-    public ViewManagerImpl(Context context, int screenWidth) {
+    public ViewManagerImpl(Context context, int screenWidth, int screenHeight) {
         generatorColorTable();
 
         String[] message = new String[2];
         message[0] = context.getResources().getString(R.string.raise_finger_msg1);
         message[1] = context.getResources().getString(R.string.raise_finger_msg2);
+
+        mBigNumber[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.n01);
+        mBigNumber[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.n02);
+
         idleView = new IdleView(screenWidth, message);
-        selectingView = new SelectingView(screenWidth);
-        alertingView = new AlertingView(screenWidth);
+        selectingView = new SelectingView(screenWidth, screenHeight, mBigNumber[1]);
+        alertingView = new AlertingView(screenWidth, screenHeight,  mBigNumber[0]);
         selectedView = new SelectedView(context, screenWidth);
         view = idleView;
     }
@@ -81,6 +88,17 @@ public class ViewManagerImpl implements ViewManager, ViewObserver {
     public int getRandomColor(){
         Random rnd = new Random();
         return Color.argb(255, 56 + rnd.nextInt(200), 56 + rnd.nextInt(200), 56 + rnd.nextInt(200));
+    }
+
+    public void recycle() {
+        if (mBigNumber[0] != null) {
+            mBigNumber[0].recycle();
+            mBigNumber[0] = null;
+        }
+        if (mBigNumber[1] != null) {
+            mBigNumber[1].recycle();
+            mBigNumber[1] = null;
+        }
     }
 
 }

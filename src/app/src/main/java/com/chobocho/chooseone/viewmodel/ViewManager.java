@@ -4,4 +4,5 @@ import android.graphics.Canvas;
 
 public interface ViewManager {
     void OnDraw(Canvas canvas);
+    void recycle();
 }
