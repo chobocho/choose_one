@@ -8,6 +8,7 @@ import com.chobocho.chooseone.state.IdleState;
 import com.chobocho.chooseone.state.SelectedState;
 import com.chobocho.chooseone.state.SelectingState;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -41,7 +42,6 @@ public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
             case IState.IDLE:
                 setState(idleState);
                 observer.OnSetIdleMode();
-                observer.updatePointList(pointList);
                 break;
             case IState.SELECTING:
                 setState(selectingState);
