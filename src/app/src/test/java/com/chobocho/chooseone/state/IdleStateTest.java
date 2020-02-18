@@ -9,10 +9,12 @@ import org.junit.Test;
 
 public class IdleStateTest {
     private ChooseManager manager;
+    IState idleState;
 
     @Before
     public void setUp() throws Exception {
         manager = new ChooseManagerImpl();
+        idleState = new IdleState(manager);
     }
 
     @After
@@ -21,7 +23,7 @@ public class IdleStateTest {
 
     @Test
     public void init() {
-        IState idleState = new IdleState(manager);
+        idleState.Init();
         assert (idleState.mPointNum == 0);
     }
 
@@ -35,5 +37,6 @@ public class IdleStateTest {
 
     @Test
     public void toString1() {
+        assert("IdleState".equals(idleState.toString()));
     }
 }
