@@ -8,7 +8,6 @@ import com.chobocho.chooseone.state.IdleState;
 import com.chobocho.chooseone.state.SelectedState;
 import com.chobocho.chooseone.state.SelectingState;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -41,25 +40,33 @@ public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
         switch (state) {
             case IState.IDLE:
                 setState(idleState);
-                observer.OnSetIdleMode();
+                if (observer != null) {
+                    observer.OnSetIdleMode();
+                }
                 break;
             case IState.SELECTING:
                 setState(selectingState);
-                observer.OnSetSelectingMode();
-                observer.updatePointList(pointList);
+                if (observer != null) {
+                    observer.OnSetSelectingMode();
+                    observer.updatePointList(pointList);
+                }
                 break;
             case IState.ALERTING:
                 setState(alertingState);
-                observer.OnSetAlertingMode();
-                observer.updatePointList(pointList);
+                if (observer != null) {
+                    observer.OnSetAlertingMode();
+                    observer.updatePointList(pointList);
+                }
                 break;
             case IState.SELECTED:
                 setState(selectedState);
-                observer.OnSetSelectedMode();
-                observer.updatePointList(pointList);
+                if (observer != null) {
+                    observer.OnSetSelectedMode();
+                    observer.updatePointList(pointList);
+                }
                 break;
         }
-        Log.d(CHOOSE_MANAGER, "State: " + state);
+        // Log.d(CHOOSE_MANAGER, "State: " + state);
     }
 
     public void updatePoint(int pointCount, List<CPoint> list) {
@@ -74,7 +81,7 @@ public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
     }
 
     private void setState(IState nextState) {
-        Log.d(CHOOSE_MANAGER, nextState.toString());
+        // Log.d(CHOOSE_MANAGER, nextState.toString());
         state = nextState;
         state.Init();
     }
@@ -96,5 +103,13 @@ public class ChooseManagerImpl implements ChooseManager, ChooseManagerObserver {
 
     public void registerObserver(ViewObserver observer) {
         this.observer = observer;
+    }
+
+    @Override
+    public String toString() {
+        if (state == null) {
+            return "";
+        }
+        return state.toString();
     }
 }
