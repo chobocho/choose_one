@@ -29,9 +29,9 @@ public class SelectingView implements ChooseView{
         FINGER_RADIUS = (int)this.screenWidth / 6;
 
         if (bigNumber != null) {
-            double radio = bigNumber.getWidth() / screenWidth * 0.8;
-            int nx = (int) (bigNumber.getWidth() * radio);
-            int ny = (int) (bigNumber.getHeight() * radio);
+            // bigNumber.getWidth() : bigNumber.getHeight() = screenWidth / 3 : ?
+            int nx = screenWidth / 2;
+            int ny = (bigNumber.getHeight() * nx) / bigNumber.getWidth();
             mBigNumber = Bitmap.createScaledBitmap(bigNumber, nx, ny, true);
         }
 
