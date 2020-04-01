@@ -7,8 +7,8 @@ android {
         applicationId "com.chobocho.chooseone"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 20
-        versionName "0.1105.20"
+        versionCode 21
+        versionName "0.1105.21"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

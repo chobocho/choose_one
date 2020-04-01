@@ -100,7 +100,14 @@ public class ChooseView extends View {
         boolean pointCountUpdated = (pointerCount > 0) && (prePointCount != pointerCount);
         prePointCount = pointerCount;
 
-        if ((MotionEvent.ACTION_MOVE == (action & MotionEvent.ACTION_MASK)) || pointCountUpdated) {
+        if (MotionEvent.ACTION_UP == action) {
+            Log.d(LOG_TAG,"Finger up!");
+
+            pointerCount = 0;
+            pointList.clear();
+        }
+
+        if (MotionEvent.ACTION_MOVE == action) {
             for (int i = 0; i < pointerCount; i++) {
                 CPoint point = new CPoint();
                 point.id = event.getPointerId(i);
@@ -112,10 +119,6 @@ public class ChooseView extends View {
         }
 
         Log.d(LOG_TAG, "Point Count: " + pointerCount + " " + pointList.size());
-
-        if (pointList.size() == 0) {
-            pointerCount = 0;
-        }
 
         Message msg = new Message();
         msg.what = PRESS_KEY;
