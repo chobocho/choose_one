@@ -50,7 +50,7 @@ public class IdleView implements ChooseView {
         }
 
         Paint paint = new Paint();
-        paint.setColor(Color.LTGRAY);
+        paint.setColor(Color.CYAN);
 
         int textSize = screenWidth/20;
         int textX = screenWidth/6 + tick;
